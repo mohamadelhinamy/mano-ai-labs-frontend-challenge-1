@@ -32,7 +32,6 @@ const MRFListPage: React.FC = () => {
   }, []);
 
   const handleRowClick = (rowData: MRFFile) => {
-    console.log('MRF File Clicked:', rowData);
     navigate(`/mrf-files/${rowData.fileName}`);
   };
 

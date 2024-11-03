@@ -28,7 +28,6 @@ export const generateMRFFile = async (claimsData: { claims: RowData[] }) => {
     });
 
     if (!response.ok) {
-      console.log(response, 'response')
       throw new Error('Failed to generate MRF file');
     }
 
@@ -37,7 +36,6 @@ export const generateMRFFile = async (claimsData: { claims: RowData[] }) => {
 
 export const fetchMRFFiles = async () => {
   const response = await fetch(`${apiBaseUrl}files/mrf-files`);
-  console.log(response, 'response')
 
   if (!response.ok) {
     throw new Error('Failed to fetch MRF files');

@@ -51,7 +51,6 @@ const UploadPage: React.FC = observer(() => {
         });
         navigate('/mrf-files');
       } catch (error) {
-        console.log(error, 'error')
         claimsStore.setError(error?.response?.message ?? 'Failed to generate MRF file');
       } finally {
         claimsStore.setMRFLoading(false);

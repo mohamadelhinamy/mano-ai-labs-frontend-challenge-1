@@ -18,7 +18,6 @@ const MRFDetailsPage: React.FC = () => {
     const fetchFileDetails = async () => {
       try {
         const response = await fetchMRFFile(filename);
-        console.log('response', response);
         setFileDetails(response);
       } catch (err) {
         setError(err?.response?.data?.message ?? "Failed to fetch file details");
