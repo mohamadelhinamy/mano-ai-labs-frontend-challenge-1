@@ -1,19 +1,15 @@
 import { promises as fs } from 'fs';
 import { fileURLToPath } from 'url';
 import path from 'path';
-import { type RowData } from '../types/index.js'; // Assuming types are defined for parsed CSV data
+import { type RowData } from '../types/index.js';
 
-// Function to generate and save MRF JSON file
 export const generateMRFFile = async (claimsData: RowData[]): Promise<string> => {
-  // Aggregate data logic here
   const mrfData = aggregateClaimsData(claimsData);
 
-  // Define filename and save path
   const fileName = `mrf_${Date.now()}.json`;
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const filePath = path.join(__dirname, '../mrf_files', fileName);
 
-  // Save JSON to filesystem
   try {
     await fs.writeFile(filePath, JSON.stringify(mrfData, null, 2));
     console.log(`MRF file saved successfully: ${fileName}`);
@@ -24,9 +20,7 @@ export const generateMRFFile = async (claimsData: RowData[]): Promise<string> =>
   }
 };
 
-// Helper function to aggregate claims data
 const aggregateClaimsData = (claimsData: RowData[]): any => {
-  // This function aggregates the claims data to generate the MRF format
   const aggregatedData: { [key: string]: any } = {};
 
   claimsData.forEach((claim) => {
@@ -34,11 +28,11 @@ const aggregateClaimsData = (claimsData: RowData[]): any => {
 
     if (!aggregatedData[key]) {
       aggregatedData[key] = {
-        name: claim.procedureCode, // Using procedure code as the name for the service
-        billing_code_type: 'CPT', // Assuming CPT for the example, adjust as needed
+        name: claim.procedureCode,
+        billing_code_type: 'CPT',
         billing_code: claim.procedureCode,
-        billing_code_type_version: '2024', // Placeholder for billing code version
-        description: `Service provided: ${claim.procedureCode}`, // Description based on procedure code
+        billing_code_type_version: '2024',
+        description: `Service provided: ${claim.procedureCode}`,
         allowed_amounts: [],
       };
     }
@@ -53,7 +47,7 @@ const aggregateClaimsData = (claimsData: RowData[]): any => {
       payments: [
         {
           allowed_amount: parseFloat(claim.allowed.toString()),
-          billing_code_modifier: [], // Assuming no modifiers for now
+          billing_code_modifier: [],
           providers: [
             {
               billed_charge: parseFloat(claim.billed.toString()),
@@ -65,7 +59,7 @@ const aggregateClaimsData = (claimsData: RowData[]): any => {
     });
   });
 
-  // Construct the final MRF data
+
   const uniqueEntities = Array.from(new Set(claimsData.map((claim) => claim.groupName)));
   const mrfData = uniqueEntities.map((entity) => {
     const entityClaims = claimsData.filter((claim) => claim.groupName === entity);

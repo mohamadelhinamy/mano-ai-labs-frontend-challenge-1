@@ -4,11 +4,11 @@ import { type RowData } from '../types/index.js';
 
 const toCamelCase = (str: string) => {
   return str
-    .toLowerCase() // Convert the entire string to lowercase
+    .toLowerCase()
     .replace(/(?:^\w|[A-Z]|\b\w|\s+)/g, (match, index) => 
       index === 0 ? match.toLowerCase() : match.toUpperCase()
     )
-    .replace(/\s+/g, ''); // Remove spaces
+    .replace(/\s+/g, '');
 };
 
 export const parseAndValidateCSV = async (fileBuffer: Buffer): Promise<RowData[]> => {
@@ -19,17 +19,14 @@ export const parseAndValidateCSV = async (fileBuffer: Buffer): Promise<RowData[]
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        // Check if headers and first row exist
         if (!results.data || results.data.length === 0) {
           return reject(new Error('The CSV file is empty or improperly formatted.'));
         }
 
-        // Filter out any empty rows
         const filteredData = results.data.filter((row) => {
           return Object.values(row).some((value) => value !== null && value !== undefined && value !== '');
         });
 
-        // Convert CSV headers to camelCase
         const normalizedData = filteredData.map((row) => {
           const newRow: any = {};
           for (const key in row) {
