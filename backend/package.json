@@ -6,10 +6,15 @@
   },
   "dependencies": {
     "@hono/node-server": "^1.13.2",
-    "hono": "^4.6.6"
+    "formidable": "^3.5.2",
+    "hono": "^4.6.6",
+    "papaparse": "^5.4.1",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/formidable": "^3.4.5",
     "@types/node": "^20.11.17",
+    "@types/papaparse": "^5.3.15",
     "tsx": "^4.7.1"
   },
   "engines": {
